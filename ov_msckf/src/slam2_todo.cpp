@@ -6,6 +6,7 @@
 
 #include <math.h>
 #include <eigen3/Eigen/Dense>
+#include <Eigen/Geometry> 
 
 #include "core/VioManager.h"
 #include "state/State.h"
@@ -64,12 +65,31 @@ VioManagerOptions create_params()
 #endif
 
 
+Eigen::Matrix3d ori_extrinsic_0 = Eigen::Matrix3d::Identity(3,3);
+Eigen::Matrix3d rotate_pitch, rotate_yaw, rotate_roll;
+//pitch
+rotate_pitch << 1,0,0,
+            0,0,-1,
+            0,1,0;
+rotate_roll << 1,0,0,
+               0,1,0,
+               0,0,1; 
+//yaw
+rotate_yaw << 0,0,1,
+              0,1,0,
+              -1,0,0;
+//Eigen::Matrix3d rotated = rotate_roll * rotate_yaw * rotate_pitch * ori_extrinsic_0;
+Eigen::Matrix3d rotated = ori_extrinsic_0;
 #ifdef REALSENSE
   //realsense extrinsic from Infrared to Gyro/Accel
   std::vector<double> matrix_TCtoI_0 = {1.0, 0.0, 0.0, -0.0302200,
             0.0, 1.0, 0.0, 0.0074000,
             0.0, 0.0, 1.0, 0.0160200,
             0.0, 0.0, 0.0, 1.0};
+  //std::vector<double> matrix_TCtoI_0 = {rotated(0,0), rotated(0,1), rotated(0,2), -0.0302200,
+  //          rotated(1,0), rotated(1,1), rotated(1,2), 0.0074000,
+  //          rotated(2,0), rotated(2,1), rotated(2,2), 0.0160200,
+  //          0.0, 0.0, 0.0, 1.0};
 
 #endif
     Eigen::Matrix4d T_CtoI_0;
@@ -133,6 +153,10 @@ VioManagerOptions create_params()
             0.0, 1.0, 0.0, 0.0074000,
             0.0, 0.0, 1.0, 0.0160200,
             0.0, 0.0, 0.0, 1.0};
+  //std::vector<double> matrix_TCtoI_1 = {rotated(0,0), rotated(0,1), rotated(0,2), 0.0647626,
+  //          rotated(1,0), rotated(1,1), rotated(1,2), 0.0074000,
+  //          rotated(2,0), rotated(2,1), rotated(2,2), 0.0160200,
+  //          0.0, 0.0, 0.0, 1.0};
 #endif
 
   Eigen::Matrix4d T_CtoI_1;
@@ -223,12 +247,8 @@ VioManagerOptions create_params()
   params.imu_noises.sigma_wb = 1.9393e-05; // Gyroscope random walk
 #endif
 #ifdef EUROC
-  params.slam_options.chi2_multipler = 1;
-  params.slam_options.sigma_pix = 1;
-  params.imu_noises.sigma_a = 0.002;  // Accelerometer noise
-  params.imu_noises.sigma_ab = 0.003; // Accelerometer random walk
-  params.imu_noises.sigma_w = 0.00016968;  // Gyroscope noise
-  params.imu_noises.sigma_wb = 1.9393e-05; // Gyroscope random walk
+	params.slam_options.chi2_multipler = 1;
+	params.slam_options.sigma_pix = 1;
 #endif
 #ifdef REALSENSE
 
@@ -236,12 +256,26 @@ VioManagerOptions create_params()
 	params.slam_options.chi2_multipler = 1;
 	params.slam_options.sigma_pix = 1;
 
-  //imu noise and random work using allan_variancei(https://github.com/GAVLab/allan_variance)
+  // IMU biases from https://github.com/rpng/open_vins/issues/52#issuecomment-619480497
+  //params.imu_noises.sigma_a =  0.00140977;  // Accelerometer noise
+  //params.imu_noises.sigma_ab = 0.00013291; // Accelerometer random walk
+  //params.imu_noises.sigma_w =  0.00011335;  // Gyroscope noise
+  //params.imu_noises.sigma_wb = 0.00000232; // Gyroscope random walk
+  //params.imu_noises.sigma_a =  0.00122849;  // Accelerometer noise
+  //params.imu_noises.sigma_ab = 0.00009908; // Accelerometer random walk
+  //params.imu_noises.sigma_w =  0.00011248;  // Gyroscope noise
+  //params.imu_noises.sigma_wb = 0.00000069; // Gyroscope random walk
+  //self tested
   params.imu_noises.sigma_a =  0.00151010;  // Accelerometer noise
   params.imu_noises.sigma_ab = 0.00005778; // Accelerometer random walk
   params.imu_noises.sigma_w =  0.00013442;  // Gyroscope noise
   params.imu_noises.sigma_wb = 0.00000165; // Gyroscope random walk
   
+  //params.imu_noises.sigma_a =  0.1;  // Accelerometer noise
+  //params.imu_noises.sigma_ab = 0.003; // Accelerometer random walk
+  //params.imu_noises.sigma_w =  0.016968;  // Gyroscope noise
+  //params.imu_noises.sigma_wb = 0.0019393; // Gyroscope random walk
+
 #endif
 
     params.use_aruco = false;
@@ -296,8 +330,14 @@ public:
 		// Feed the IMU measurement. There should always be IMU data in each call to feed_imu_cam
 		assert((datum->img0.has_value() && datum->img1.has_value()) || (!datum->img0.has_value() && !datum->img1.has_value()));
 		open_vins_estimator.feed_measurement_imu(duration2double(datum->time.time_since_epoch()), datum->angular_v.cast<double>(), datum->linear_a.cast<double>());
-        //std::cout<<"Angular v,"<<datum->angular_v[0]<<","<<datum->angular_v[1]<<","<<datum->angular_v[2]<<"\n";
-        //std::cout<<"Linear a,"<<datum->linear_a[0]<<","<<datum->linear_a[1]<<","<<datum->linear_a[2]<<"\n";
+        std::cout<<"Angular v,"<<datum->angular_v[0]<<","<<datum->angular_v[1]<<","<<datum->angular_v[2]<<"\n";
+        std::cout<<"Linear a,"<<datum->linear_a[0]<<","<<datum->linear_a[1]<<","<<datum->linear_a[2]<<"\n";
+        //Eigen::Quaternionf temp = {-0.5,-0.5,-0.5,0.5};
+        //Eigen::Quaternionf temp_inv = temp.inverse();
+        //std::cout<<"temp inverse: "<<temp_inv.w()<< " "<<temp_inv.x()<<" "<<temp_inv.y()<<" "<<temp_inv.z()<<"\n"; 
+        //Eigen::Vector3f angular_v_realsense(-datum->angular_v[2], -datum->angular_v[0], datum->angular_v[1]);
+        //Eigen::Vector3f linear_a_realsense(-datum->linear_a[2], -datum->linear_a[0], datum->linear_a[1]);
+        //open_vins_estimator.feed_measurement_imu(duration2double(datum->time.time_since_epoch()), angular_v_realsense.cast<double>(), linear_a_realsense.cast<double>());
 
 		// If there is not cam data this func call, break early
 		if (!datum->img0.has_value() && !datum->img1.has_value()) {
@@ -327,6 +367,7 @@ public:
 		Eigen::Vector3d pose = state->_imu->pos();
 
 		Eigen::Vector3f swapped_pos = Eigen::Vector3f{float(pose(0)), float(pose(1)), float(pose(2))};
+		//Eigen::Vector3f swapped_pos = Eigen::Vector3f{float(pose(2)), 0.0f, 0.0f};
 		Eigen::Quaternionf swapped_rot = Eigen::Quaternionf{float(quat(3)), float(quat(0)), float(quat(1)), float(quat(2))};
 		Eigen::Quaterniond swapped_rot2 = Eigen::Quaterniond{(quat(3)), (quat(0)), (quat(1)), (quat(2))};
 
@@ -348,51 +389,7 @@ public:
 				swapped_pos,
 				swapped_rot
 			));
-#ifdef ZED
-			_m_imu_integrator_input.put(_m_imu_integrator_input.allocate(
-				datum->time,
-				from_seconds(state->_calib_dt_CAMtoIMU->value()(0)),
-				imu_params{
-					.gyro_noise =  0.00024213,
-					.acc_noise =   0.00395942,
-					.gyro_walk =   0.00001939,
-					.acc_walk =    0.00072014,
-					.n_gravity = Eigen::Matrix<double,3,1>(0.0,0.0,-9.8),
-					//.n_gravity = Eigen::Matrix<double,3,1>(0.0,9.8,0.0),
-					.imu_integration_sigma = 1.0,
-                    .nominal_rate = 400.0,
-				},
-				state->_imu->bias_a(),
-				state->_imu->bias_g(),
-				pose,
-				vel,
-				swapped_rot2
-			));
-#endif
 
-#ifdef EUROC 
-			_m_imu_integrator_input.put(_m_imu_integrator_input.allocate(
-				datum->time,
-				from_seconds(state->_calib_dt_CAMtoIMU->value()(0)),
-				imu_params{
-					.gyro_noise =  0.00016968,
-					.acc_noise =   0.002,
-					.gyro_walk =   0.000019393,
-					.acc_walk =    0.003,
-					.n_gravity = Eigen::Matrix<double,3,1>(0.0,0.0,-9.8),
-					//.n_gravity = Eigen::Matrix<double,3,1>(0.0,9.8,0.0),
-					.imu_integration_sigma = 1.0,
-                    .nominal_rate = 200.0,
-				},
-				state->_imu->bias_a(),
-				state->_imu->bias_g(),
-				pose,
-				vel,
-				swapped_rot2
-			));
-#endif
-
-#ifdef REALSENSE
 			_m_imu_integrator_input.put(_m_imu_integrator_input.allocate(
 				datum->time,
 				from_seconds(state->_calib_dt_CAMtoIMU->value()(0)),
@@ -401,9 +398,17 @@ public:
 					.acc_noise =   0.00151010,
 					.gyro_walk =   0.00000165,
 					.acc_walk =    0.00005778,
-					.n_gravity = Eigen::Matrix<double,3,1>(0.0,0.0,9.8),
-					//.n_gravity = Eigen::Matrix<double,3,1>(0.0,9.8,0.0),
+					//.gyro_noise = 0.00011248,
+					//.acc_noise =  0.00122849,
+					//.gyro_walk =  0.00000069,
+					//.acc_walk =   0.00009908,
+					//.n_gravity = Eigen::Matrix<double,3,1>(-9.81,0.0,0.0),
+					//.n_gravity = Eigen::Matrix<double,3,1>(0,0.0,0.0),
+					//.n_gravity = Eigen::Matrix<double,3,1>(0.0,0.0,-9.8),
+					//.n_gravity = Eigen::Matrix<double,3,1>(0.0,0.0,9.8),
+					.n_gravity = Eigen::Matrix<double,3,1>(0.0,9.8,0.0),
 					.imu_integration_sigma = 1.0,
+					//pyh where is this used?
                     .nominal_rate = 400.0,
 				},
 				state->_imu->bias_a(),
@@ -412,7 +417,6 @@ public:
 				vel,
 				swapped_rot2
 			));
-#endif
 		}
 
 		// I know, a priori, nobody other plugins subscribe to this topic
