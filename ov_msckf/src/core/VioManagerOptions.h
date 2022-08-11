@@ -58,7 +58,9 @@ namespace ov_msckf {
         StateOptions state_options;
 
         /// Gravity in the global frame (i.e. should be [0, 0, 9.81] typically)
-        Eigen::Vector3d gravity = {0.0, 0.0, 9.81};
+        //walk with passthrough + no prediction
+	Eigen::Vector3d gravity = {0.0, 0.0, 9.81};
+        //Eigen::Vector3d gravity = {0.0, 9.81,0.0};
 
         /// Delay, in seconds, that we should wait from init before we start estimating SLAM features
         double dt_slam_delay = 2.0;
