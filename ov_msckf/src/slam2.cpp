@@ -158,9 +158,11 @@ VioManagerOptions create_params()
 #endif
 #ifdef REALSENSE
 	params.camera_wh.insert({1, {640, 480}});
+	params.state_options.max_slam_features = 50;
+	params.state_options.max_slam_in_update = 25;
+	params.state_options.max_msckf_in_update = 45;
 #endif
 
-	// params.state_options.max_slam_features = 0;
 	params.state_options.num_cameras = 2;
 	params.init_window_time = 0.75;
 
@@ -177,24 +179,25 @@ VioManagerOptions create_params()
 	params.init_imu_thresh = 0.5;
 #endif
 	
-    //params.fast_threshold = 15;
-    params.fast_threshold = 10;
-	params.grid_x = 10;
-	params.grid_y = 6;
+    params.fast_threshold = 15;
+    //params.fast_threshold = 5;
     
 #ifdef ZED
   // Hand tuned
   params.num_pts = 200;
+	params.knn_ratio = 0.65;
 #endif
 #ifdef EUROC
   params.num_pts = 150;
+	params.knn_ratio = 0.65;
 #endif
 #ifdef REALSENSE
-  params.num_pts = 250;
-  params.min_px_dist = 10;
+  params.num_pts = 150;
+  params.min_px_dist = 15;
+  params.knn_ratio = 0.7;
+
 #endif
 	params.msckf_options.chi2_multipler = 1;
-	params.knn_ratio = 0.65;
 
 	params.state_options.imu_avg = true;
 	params.state_options.do_fej = true;
@@ -402,6 +405,7 @@ public:
 					.gyro_walk =   0.00000165,
 					.acc_walk =    0.00005778,
 					.n_gravity = Eigen::Matrix<double,3,1>(0.0,0.0,-9.8),
+					//.n_gravity = Eigen::Matrix<double,3,1>(0.0,-9.8,0.0),
 					//.n_gravity = Eigen::Matrix<double,3,1>(0.0,9.8,0.0),
 					.imu_integration_sigma = 1.0,
                     .nominal_rate = 400.0,
