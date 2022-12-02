@@ -116,7 +116,7 @@ Eigen::Matrix3d rotated = ori_extrinsic_0;
 #endif
 
 #ifdef REALSENSE
-	params.camera_wh.insert({0, {640, 480}});
+	params.camera_wh.insert({0, {848, 800}});
 #endif
 
 	// Camera #1

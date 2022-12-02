@@ -96,7 +96,7 @@ VioManagerOptions create_params()
 #endif
 
 #ifdef REALSENSE
-	params.camera_wh.insert({0, {640, 480}});
+	params.camera_wh.insert({0, {848, 800}});
 #endif
 
 	// Camera #1
@@ -157,7 +157,7 @@ VioManagerOptions create_params()
 	params.camera_wh.insert({1, {752, 480}});
 #endif
 #ifdef REALSENSE
-	params.camera_wh.insert({1, {640, 480}});
+	params.camera_wh.insert({1, {848, 800}});
 	params.state_options.max_slam_features = 50;
 	params.state_options.max_slam_in_update = 25;
 	params.state_options.max_msckf_in_update = 45;
