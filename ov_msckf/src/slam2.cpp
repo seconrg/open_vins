@@ -44,7 +44,8 @@ VioManagerOptions create_params()
 
 #ifdef REALSENSE  
   //Realsense
-  intrinsics_0 << 388.843, 388.843, 318.319, 237.456, 0, 0, 0, 0;
+  intrinsics_0 << 427.090515136719, 399.844207763672, 287.242614746094, 285.577789306641;
+//   intrinsics_0 << 388.843, 388.843, 318.319, 237.456, 0, 0, 0, 0;
 #endif
 
 #ifdef ZED
@@ -111,7 +112,8 @@ VioManagerOptions create_params()
 #endif
 
 #ifdef REALSENSE
-    intrinsics_1 << 388.843, 388.843, 318.319, 237.456, 0, 0, 0, 0;
+    intrinsics_1 << 428.415405273438, 405.439392089844, 286.950592041016, 285.402496337891;
+	// intrinsics_1 << 388.843, 388.843, 318.319, 237.456, 0, 0, 0, 0;
 #endif
 
 #ifdef ZED
