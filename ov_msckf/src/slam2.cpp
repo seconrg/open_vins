@@ -74,7 +74,7 @@ VioManagerOptions create_params()
         0.0, 0.0, 0.0, 1.0};
 
 #endif
-    Eigen::Matrix3d T_CtoI_0;
+    Eigen::Matrix4d T_CtoI_0;
     T_CtoI_0 << matrix_TCtoI_0.at(0), matrix_TCtoI_0.at(1), matrix_TCtoI_0.at(2), matrix_TCtoI_0.at(3),
 		matrix_TCtoI_0.at(4), matrix_TCtoI_0.at(5), matrix_TCtoI_0.at(6), matrix_TCtoI_0.at(7),
 		matrix_TCtoI_0.at(8), matrix_TCtoI_0.at(9), matrix_TCtoI_0.at(10), matrix_TCtoI_0.at(11),
