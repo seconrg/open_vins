@@ -258,11 +258,11 @@ VioManagerOptions create_params()
 //   params.imu_noises.sigma_ab = 0.00005778; // Accelerometer random walk
 //   params.imu_noises.sigma_w =  0.00013442;  // Gyroscope noise
 //   params.imu_noises.sigma_wb = 0.00000165; // Gyroscope random walk
-   params.imu_noises.sigma_ab = 0.000099999997474 / 0.0707; //Accel random walk
+   params.imu_noises.sigma_ab = 0.000099999997474 * 0.0707; //Accel random walk
    params.imu_noises.sigma_a = 0.00151010 / 0.0707; //Accel noise
-   params.imu_noises.sigma_wb = 0.000000499999999 / 0.0707;
+   params.imu_noises.sigma_wb = 0.000000499999999 * 0.0707;
    params.imu_noises.sigma_w = 0.000005148030141 / 0.0707;
-   
+
 
   
 #endif
