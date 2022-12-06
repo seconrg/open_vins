@@ -44,7 +44,7 @@ VioManagerOptions create_params()
 
 #ifdef REALSENSE  
   //Realsense
-  intrinsics_0 << 427.090515136719, 399.844207763672, 287.242614746094, 285.577789306641, 0.0, 0.0, 0.0, 0.0;
+  intrinsics_0 << 427.090515136719, 399.844207763672, 287.242614746094, 285.577789306641, 0, 0, 0, 0;
 //   intrinsics_0 << 388.843, 388.843, 318.319, 237.456, 0, 0, 0, 0;
 #endif
 
@@ -67,14 +67,13 @@ VioManagerOptions create_params()
 
 #ifdef REALSENSE
   //realsense extrinsic from Infrared to Gyro/Accel
-    std::vector<double> matrix_TCtoI_0 = {
-	    -0.999948, -0.00756261, 0.00688425, 0.0106994416564703,
-        0.00754963, -0.99997, -0.00190967, -8.07809992693365e-05, 
-        0.00689849, -0.00185759, 0.999974, -7.38138041924685e-05, 
-        0.0, 0.0, 0.0, 1.0};
+  std::vector<double> matrix_TCtoI_0 = {1.0, 0.0, 0.0, -0.0302200,
+            0.0, 1.0, 0.0, 0.0074000,
+            0.0, 0.0, 1.0, 0.0160200,
+            0.0, 0.0, 0.0, 1.0};
 
 #endif
-    Eigen::Matrix3d T_CtoI_0;
+    Eigen::Matrix4d T_CtoI_0;
     T_CtoI_0 << matrix_TCtoI_0.at(0), matrix_TCtoI_0.at(1), matrix_TCtoI_0.at(2), matrix_TCtoI_0.at(3),
 		matrix_TCtoI_0.at(4), matrix_TCtoI_0.at(5), matrix_TCtoI_0.at(6), matrix_TCtoI_0.at(7),
 		matrix_TCtoI_0.at(8), matrix_TCtoI_0.at(9), matrix_TCtoI_0.at(10), matrix_TCtoI_0.at(11),
@@ -113,7 +112,7 @@ VioManagerOptions create_params()
 #endif
 
 #ifdef REALSENSE
-    intrinsics_1 << 428.415405273438, 405.439392089844, 286.950592041016, 285.402496337891, 0.0, 0.0, 0.0, 0.0;
+    intrinsics_1 << 428.415405273438, 405.439392089844, 286.950592041016, 285.402496337891, 0, 0, 0,;
 	// intrinsics_1 << 388.843, 388.843, 318.319, 237.456, 0, 0, 0, 0;
 #endif
 
@@ -132,11 +131,10 @@ VioManagerOptions create_params()
 #endif
 #ifdef REALSENSE
   //realsense extrinsic from Infrared1 to Gyro/Accel
-  std::vector<double> matrix_TCtoI_1 = {
-	    -0.999992, -0.00382235, 0.00114856, -0.0528402402997017, 
-        0.00382495, -0.99999, 0.00227442, 0.000266799703240395,
-        0.00113985, 0.00227879, 0.999997, 0.000264499598415568, 
-        0.0, 0.0, 0.0, 1.0};
+  std::vector<double> matrix_TCtoI_1 = {1.0, 0.0, 0.0, 0.0647626,
+            0.0, 1.0, 0.0, 0.0074000,
+            0.0, 0.0, 1.0, 0.0160200,
+            0.0, 0.0, 0.0, 1.0};
 #endif
 
   Eigen::Matrix4d T_CtoI_1;
