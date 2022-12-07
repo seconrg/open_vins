@@ -436,7 +436,7 @@ public:
 					.acc_walk = 0.000099999997474 * 0.0707,
 					.gyro_walk = 0.000000499999999 * 0.0707,
 					.acc_noise = 0.000099999997474 * 0.0707,
-					.n_gravity = Eigen::Matrix<double,3,1>(0.0,0.0,1.0),
+					.n_gravity = Eigen::Matrix<double,3,1>(0.0,0.0,0.0),
 					//.n_gravity = Eigen::Matrix<double,3,1>(0.0,-9.8,0.0),
 					//.n_gravity = Eigen::Matrix<double,3,1>(0.0,9.8,0.0),
 					.imu_integration_sigma = 1.0,
