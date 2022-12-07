@@ -207,8 +207,8 @@ VioManagerOptions create_params()
 #endif
 #ifdef REALSENSE
   params.num_pts = 150;
-  params.min_px_dist = 15;
-  params.knn_ratio = 0.7;
+  params.min_px_dist = 10;
+  params.knn_ratio = 0.85;
 
 #endif
 	params.msckf_options.chi2_multipler = 1;
@@ -262,10 +262,10 @@ VioManagerOptions create_params()
 //    params.imu_noises.sigma_a = 2.0000e-3; //Accel noise
 //    params.imu_noises.sigma_wb = 1.9393e-05;
 //    params.imu_noises.sigma_w = 1.6968e-04;
-   params.imu_noises.sigma_ab = 0.000099999997474 / 0.0707; //Accel random walk
-   params.imu_noises.sigma_a = 0.000066952452471 / 0.0707; //Accel noise
-   params.imu_noises.sigma_wb = 0.000000499999999 / 0.0707;
-   params.imu_noises.sigma_w = 0.000005148030141 / 0.0707;
+   params.imu_noises.sigma_ab = 0.000099999997474 / 0.0707; // Accel random walk
+   params.imu_noises.sigma_a = 0.000066952452471 / 0.0707;  // Accel noise
+   params.imu_noises.sigma_wb = 0.000000499999999 / 0.0707; // gyro random walk
+   params.imu_noises.sigma_w = 0.000005148030141 / 0.0707;  // gyro noise
 
 
   
