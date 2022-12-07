@@ -262,9 +262,9 @@ VioManagerOptions create_params()
 //    params.imu_noises.sigma_a = 2.0000e-3; //Accel noise
 //    params.imu_noises.sigma_wb = 1.9393e-05;
 //    params.imu_noises.sigma_w = 1.6968e-04;
-   params.imu_noises.sigma_ab = 0.000099999997474 * 0.0707; //Accel random walk
+   params.imu_noises.sigma_ab = 0.000099999997474 / 0.0707; //Accel random walk
    params.imu_noises.sigma_a = 0.000066952452471 / 0.0707; //Accel noise
-   params.imu_noises.sigma_wb = 0.000000499999999 * 0.0707;
+   params.imu_noises.sigma_wb = 0.000000499999999 / 0.0707;
    params.imu_noises.sigma_w = 0.000005148030141 / 0.0707;
 
 
@@ -433,8 +433,8 @@ public:
 					// .gyro_walk =   1.6968e-04,
 					// .acc_walk =    3.0000e-03,
 					.gyro_noise = 0.000005148030141 / 0.0707,
-					.acc_walk = 0.000099999997474 * 0.0707,
-					.gyro_walk = 0.000000499999999 * 0.0707,
+					.acc_walk = 0.000099999997474 / 0.0707,
+					.gyro_walk = 0.000000499999999 / 0.0707,
 					.acc_noise = 0.000066952452471 / 0.0707,
 					.n_gravity = Eigen::Matrix<double,3,1>(0.0,-9.8,0.0),
 					//.n_gravity = Eigen::Matrix<double,3,1>(0.0,-9.8,0.0),
