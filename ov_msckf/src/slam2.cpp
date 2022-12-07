@@ -250,8 +250,8 @@ VioManagerOptions create_params()
 #ifdef REALSENSE
 
   // Pixel noise; ZED works with defaults values but these may better account for rolling shutter
-	params.slam_options.chi2_multipler = 1;
-	params.slam_options.sigma_pix = 1;
+	// params.slam_options.chi2_multipler = 1;
+	// params.slam_options.sigma_pix = 1;
 
   //imu noise and random work using allan_variancei(https://github.com/GAVLab/allan_variance)
 //   params.imu_noises.sigma_a =  0.00151010;  // Accelerometer noise
