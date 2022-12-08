@@ -242,10 +242,10 @@ VioManagerOptions create_params()
 	params.slam_options.sigma_pix = 1;
 
   //imu noise and random work using allan_variancei(https://github.com/GAVLab/allan_variance)
-  params.imu_noises.sigma_a =  0.00151010;  // Accelerometer noise
-  params.imu_noises.sigma_ab = 0.00005778; // Accelerometer random walk
-  params.imu_noises.sigma_w =  0.00013442;  // Gyroscope noise
-  params.imu_noises.sigma_wb = 0.00000165; // Gyroscope random walk
+  params.imu_noises.sigma_a =  0.12651701675313365;  // Accelerometer noise
+  params.imu_noises.sigma_ab = 0.015690203509401524; // Accelerometer random walk
+  params.imu_noises.sigma_w =  0.02154182765978557;  // Gyroscope noise
+  params.imu_noises.sigma_wb = 0.018910805686139863; // Gyroscope random walk
   
 #endif
 
