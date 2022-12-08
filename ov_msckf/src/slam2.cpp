@@ -67,16 +67,16 @@ VioManagerOptions create_params()
 
 #ifdef REALSENSE
   //realsense extrinsic from Infrared to Gyro/Accel
-    // std::vector<double> matrix_TCtoI_0 = {
-	//     -0.999948, -0.00756261, 0.00688425, 0.0106994416564703,
-    //     0.00754963, -0.99997, -0.00190967, -8.07809992693365e-05, 
-    //     0.00689849, -0.00185759, 0.999974, -7.38138041924685e-05, 
-    //     0.0, 0.0, 0.0, 1.0};
-	std::vector<double> matrix_TCtoI_0 = {
-	    1.0, 0.0, 0.0, 0.0106994416564703,
-        0.0, 1.0, 0.0, -8.07809992693365e-05, 
-        0.0, 0.0, 1.0, -7.38138041924685e-05, 
+    std::vector<double> matrix_TCtoI_0 = {
+	    -0.999948, -0.00756261, 0.00688425, 0.0106994416564703,
+        0.00754963, -0.99997, -0.00190967, -8.07809992693365e-05, 
+        0.00689849, -0.00185759, 0.999974, -7.38138041924685e-05, 
         0.0, 0.0, 0.0, 1.0};
+	// std::vector<double> matrix_TCtoI_0 = {
+	//     1.0, 0.0, 0.0, 0.0106994416564703,
+    //     0.0, 1.0, 0.0, -8.07809992693365e-05, 
+    //     0.0, 0.0, 1.0, -7.38138041924685e-05, 
+    //     0.0, 0.0, 0.0, 1.0};
 
 #endif
     Eigen::Matrix4d T_CtoI_0;
@@ -137,16 +137,16 @@ VioManagerOptions create_params()
 #endif
 #ifdef REALSENSE
   //realsense extrinsic from Infrared1 to Gyro/Accel
-//   std::vector<double> matrix_TCtoI_1 = {
-// 	    -0.999992, -0.00382235, 0.00114856, -0.0528402402997017, 
-//         0.00382495, -0.99999, 0.00227442, 0.000266799703240395,
-//         0.00113985, 0.00227879, 0.999997, 0.000264499598415568, 
-//         0.0, 0.0, 0.0, 1.0};
   std::vector<double> matrix_TCtoI_1 = {
-	    1.0, 0.0, 0.0, -0.0528402402997017, 
-        0.0, 1.0, 0.0, 0.000266799703240395,
-        0.0, 0.0, 1.0, 0.000264499598415568, 
+	    -0.999992, -0.00382235, 0.00114856, -0.0528402402997017, 
+        0.00382495, -0.99999, 0.00227442, 0.000266799703240395,
+        0.00113985, 0.00227879, 0.999997, 0.000264499598415568, 
         0.0, 0.0, 0.0, 1.0};
+//   std::vector<double> matrix_TCtoI_1 = {
+// 	    1.0, 0.0, 0.0, -0.0528402402997017, 
+//         0.0, 1.0, 0.0, 0.000266799703240395,
+//         0.0, 0.0, 1.0, 0.000264499598415568, 
+//         0.0, 0.0, 0.0, 1.0};
 #endif
 
   Eigen::Matrix4d T_CtoI_1;
@@ -190,7 +190,7 @@ VioManagerOptions create_params()
 #endif
 #ifdef REALSENSE
     //TODO need tobe hand-tuned
-	params.init_imu_thresh = 0.5;
+	params.init_imu_thresh = 1.0;
 #endif
 	
     params.fast_threshold = 15;
@@ -207,8 +207,8 @@ VioManagerOptions create_params()
 #endif
 #ifdef REALSENSE
   params.num_pts = 150;
-  params.min_px_dist = 15;
-  params.knn_ratio = 0.7;
+  params.min_px_dist = 10;
+  params.knn_ratio = 0.85;
 
 #endif
 	params.msckf_options.chi2_multipler = 1;
@@ -250,22 +250,22 @@ VioManagerOptions create_params()
 #ifdef REALSENSE
 
   // Pixel noise; ZED works with defaults values but these may better account for rolling shutter
-	params.slam_options.chi2_multipler = 1;
-	params.slam_options.sigma_pix = 1;
+	// params.slam_options.chi2_multipler = 1;
+	// params.slam_options.sigma_pix = 1;
 
   //imu noise and random work using allan_variancei(https://github.com/GAVLab/allan_variance)
 //   params.imu_noises.sigma_a =  0.00151010;  // Accelerometer noise
 //   params.imu_noises.sigma_ab = 0.00005778; // Accelerometer random walk
 //   params.imu_noises.sigma_w =  0.00013442;  // Gyroscope noise
 //   params.imu_noises.sigma_wb = 0.00000165; // Gyroscope random walk
-   params.imu_noises.sigma_ab = 3.0000e-03; //Accel random walk
-   params.imu_noises.sigma_a = 2.0000e-3; //Accel noise
-   params.imu_noises.sigma_wb = 1.9393e-05;
-   params.imu_noises.sigma_w = 1.6968e-04;
-//    params.imu_noises.sigma_ab = 0.000099999997474 * 0.0707; //Accel random walk
-//    params.imu_noises.sigma_a = 0.00151010 / 0.0707; //Accel noise
-//    params.imu_noises.sigma_wb = 0.000000499999999 * 0.0707;
-//    params.imu_noises.sigma_w = 0.000005148030141 / 0.0707;
+//    params.imu_noises.sigma_ab = 3.0000e-03; //Accel random walk
+//    params.imu_noises.sigma_a = 2.0000e-3; //Accel noise
+//    params.imu_noises.sigma_wb = 1.9393e-05;
+//    params.imu_noises.sigma_w = 1.6968e-04;
+   params.imu_noises.sigma_ab = 0.000099999997474; // 0.0707; // Accel random walk
+   params.imu_noises.sigma_a = 0.000066952452471; // 0.0707;  // Accel noise
+   params.imu_noises.sigma_wb = 0.000000499999999; // 0.0707; // gyro random walk
+   params.imu_noises.sigma_w = 0.000005148030141; // 0.0707;  // gyro noise
 
 
   
@@ -428,11 +428,15 @@ public:
 					// .acc_noise =   0.00151010,
 					// .gyro_walk =   0.00000165,
 					// .acc_walk =    0.00005778,
-					.gyro_noise =  1.6968e-04,
-					.acc_noise =   2.0000e-03,
-					.gyro_walk =   1.6968e-04,
-					.acc_walk =    3.0000e-03,
-					.n_gravity = Eigen::Matrix<double,3,1>(0.0,0.0,-9.8),
+					// .gyro_noise =  1.6968e-04,
+					// .acc_noise =   2.0000e-03,
+					// .gyro_walk =   1.6968e-04,
+					// .acc_walk =    3.0000e-03,
+					.gyro_noise = 0.000005148030141,
+					.acc_walk = 0.000099999997474 ,
+					.gyro_walk = 0.000000499999999,
+					.acc_noise = 0.000066952452471,
+					.n_gravity = Eigen::Matrix<double,3,1>(0.0,0.0,0.0),
 					//.n_gravity = Eigen::Matrix<double,3,1>(0.0,-9.8,0.0),
 					//.n_gravity = Eigen::Matrix<double,3,1>(0.0,9.8,0.0),
 					.imu_integration_sigma = 1.0,
