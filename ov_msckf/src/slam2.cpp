@@ -258,10 +258,6 @@ VioManagerOptions create_params()
 //   params.imu_noises.sigma_ab = 0.00005778; // Accelerometer random walk
 //   params.imu_noises.sigma_w =  0.00013442;  // Gyroscope noise
 //   params.imu_noises.sigma_wb = 0.00000165; // Gyroscope random walk
-//    params.imu_noises.sigma_ab = 0.000099999997474; // 0.0707; // Accel random walk
-//    params.imu_noises.sigma_a = 0.000066952452471; // 0.0707;  // Accel noise
-//    params.imu_noises.sigma_wb = 0.000000499999999; // 0.0707; // gyro random walk
-//    params.imu_noises.sigma_w = 0.000005148030141; // 0.0707;  // gyro noise
     params.imu_noises.sigma_wb = 0.00022586690473071764; // gyro random walk
 	params.imu_noises.sigma_w = 0.000209104843596445; // gyro noise
 	params.imu_noises.sigma_ab = 0.0016734785958976742; // Accel random walk
@@ -427,15 +423,11 @@ public:
 					// .acc_noise =   0.00151010,
 					// .gyro_walk =   0.00000165,
 					// .acc_walk =    0.00005778,
-					// .gyro_noise = 0.000005148030141,
-					// .acc_walk = 0.000099999997474 ,
-					// .gyro_walk = 0.000000499999999,
-					// .acc_noise = 0.000066952452471,
 					.gyro_noise = 0.000209104843596445, 
 					.gyro_walk = 0.00022586690473071764,
 					.acc_noise = 0.0012408626541722165,
 					.acc_walk = 0.0016734785958976742,
-					.n_gravity = Eigen::Matrix<double,3,1>(0.0,-9.8,0.0),
+					.n_gravity = Eigen::Matrix<double,3,1>(0.0,9.8,0.0),
 					//.n_gravity = Eigen::Matrix<double,3,1>(0.0,-9.8,0.0),
 					//.n_gravity = Eigen::Matrix<double,3,1>(0.0,9.8,0.0),
 					.imu_integration_sigma = 1.0,
