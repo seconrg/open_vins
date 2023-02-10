@@ -439,7 +439,7 @@ public:
 					//.n_gravity = Eigen::Matrix<double,3,1>(0.0,-9.8,0.0),
 					//.n_gravity = Eigen::Matrix<double,3,1>(0.0,9.8,0.0),
 					.imu_integration_sigma = 1.0,
-                    .nominal_rate = 62.0,
+                    .nominal_rate = 200.0,
 				},
 				state->_imu->bias_a(),
 				state->_imu->bias_g(),
